@@ -133,7 +133,9 @@
             [self handleRequestResult:operation];
         }];
         request.requestOperation = operation;
-        operation.responseSerializer = _manager.responseSerializer;
+#warning 修改返回数据序列化方式，后续会更改使用代理实现 @vic 2016-4-12
+//        operation.responseSerializer = _manager.responseSerializer;
+        operation.responseSerializer = [AFHTTPResponseSerializer serializer];
         [_manager.operationQueue addOperation:operation];
     } else {
         if (method == YTKRequestMethodGet) {
