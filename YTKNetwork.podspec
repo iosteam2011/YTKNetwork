@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
 
   s.name         = "YTKNetwork"
-  s.version      = "1.1.0"
-  s.summary      = "YTKNetwork is a high level request util based on AFNetworking."
+  s.version      = "1.1.1"
+  s.summary      = "修改了YTKNetwork自定义请求返回数据的反序列化方式"
   s.homepage     = "https://github.com/yuantiku/YTKNetwork"
   s.license      = "MIT"
   s.author             = {
