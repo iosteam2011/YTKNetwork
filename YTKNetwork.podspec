@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "YTKNetwork"
-  s.version      = "1.1.1"
+  s.version      = "1.1.2"
   s.summary      = "修改了YTKNetwork自定义请求返回数据的反序列化方式"
   s.homepage     = "https://github.com/yuantiku/YTKNetwork"
   s.license      = "MIT"
