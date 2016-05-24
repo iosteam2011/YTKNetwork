@@ -16,5 +16,6 @@ Pod::Spec.new do |s|
   s.requires_arc  = true
   s.dependency "AFNetworking", "~> 2.0"
   s.dependency "AFDownloadRequestOperation", "~> 2.0"
-
+  spec.ios.deployment_target = '7.0'
+  spec.watchos.deployment_target = '2.0'
 end
