@@ -23,7 +23,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
-#import "AFDownloadRequestOperation.h"
+//#import "AFDownloadRequestOperation.h"
 
 typedef NS_ENUM(NSInteger , YTKRequestMethod) {
     YTKRequestMethodGet = 0,
@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger , YTKRequestPriority) {
 };
 
 typedef void (^AFConstructingBlock)(id<AFMultipartFormData> formData);
-typedef void (^AFDownloadProgressBlock)(AFDownloadRequestOperation *operation, NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile);
+//typedef void (^AFDownloadProgressBlock)(AFDownloadRequestOperation *operation, NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile);
 
 @class YTKBaseRequest;
 
@@ -80,18 +80,14 @@ typedef void(^YTKRequestCompletionBlock)(__kindof YTKBaseRequest *request);
 /// User info
 @property (nonatomic, strong) NSDictionary *userInfo;
 
-@property (nonatomic, strong) AFHTTPRequestOperation *requestOperation;
+@property (nonatomic, strong) NSURLSessionTask *requestOperation;
 
 /// request delegate object
 @property (nonatomic, weak) id<YTKRequestDelegate> delegate;
 
 @property (nonatomic, strong, readonly) NSDictionary *responseHeaders;
 
-@property (nonatomic, strong, readonly) NSData *responseData;
-
-@property (nonatomic, strong, readonly) NSString *responseString;
-
-@property (nonatomic, strong, readonly) id responseJSONObject;
+@property (nonatomic, strong) id responseJSONObject;
 
 @property (nonatomic, readonly) NSInteger responseStatusCode;
 
@@ -187,7 +183,7 @@ typedef void(^YTKRequestCompletionBlock)(__kindof YTKBaseRequest *request);
 /// 当需要断点续传时，指定续传的地址
 - (NSString *)resumableDownloadPath;
 
-/// 当需要断点续传时，获得下载进度的回调
-- (AFDownloadProgressBlock)resumableDownloadProgressBlock;
+// 当需要断点续传时，获得下载进度的回调
+- (void (^)(NSProgress *downloadProgress))resumableDownloadProgressBlock;
 
 @end

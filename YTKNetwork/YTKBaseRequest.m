@@ -103,7 +103,7 @@
     return nil;
 }
 
-- (AFDownloadProgressBlock)resumableDownloadProgressBlock {
+- (void (^)(NSProgress *downloadProgress))resumableDownloadProgressBlock {
     return nil;
 }
 
@@ -121,53 +121,63 @@
     [self toggleAccessoriesDidStopCallBack];
 }
 
-- (BOOL)isCancelled {
-    return self.requestOperation.isCancelled;
+- (BOOL)isCancelled
+{
+#warning 自测
+    return self.requestOperation.state == NSURLSessionTaskStateCanceling;
 }
 
-- (BOOL)isExecuting {
-    return self.requestOperation.isExecuting;
+- (BOOL)isExecuting
+{
+#warning 自测
+    return self.requestOperation.state == NSURLSessionTaskStateRunning;
 }
 
 - (void)startWithCompletionBlockWithSuccess:(YTKRequestCompletionBlock)success
-                                    failure:(YTKRequestCompletionBlock)failure {
+                                    failure:(YTKRequestCompletionBlock)failure
+{
     [self setCompletionBlockWithSuccess:success failure:failure];
     [self start];
 }
 
 - (void)setCompletionBlockWithSuccess:(YTKRequestCompletionBlock)success
-                              failure:(YTKRequestCompletionBlock)failure {
+                              failure:(YTKRequestCompletionBlock)failure
+{
     self.successCompletionBlock = success;
     self.failureCompletionBlock = failure;
 }
 
-- (void)clearCompletionBlock {
+- (void)clearCompletionBlock
+{
     // nil out to break the retain cycle.
     self.successCompletionBlock = nil;
     self.failureCompletionBlock = nil;
 }
 
-- (id)responseJSONObject {
-    return self.requestOperation.responseObject;
+- (NSInteger)responseStatusCode
+{
+    if ([self.requestOperation.response isKindOfClass:[NSHTTPURLResponse class]])
+    {
+        NSHTTPURLResponse *httpURLResponse  = (NSHTTPURLResponse *)self.requestOperation.response;
+        return httpURLResponse.statusCode;
+    }
+    
+    return 0;
 }
 
-- (NSData *)responseData {
-    return self.requestOperation.responseData;
+- (NSDictionary *)responseHeaders
+{
+    if ([self.requestOperation.response isKindOfClass:[NSHTTPURLResponse class]])
+    {
+        NSHTTPURLResponse *httpURLResponse  = (NSHTTPURLResponse *)self.requestOperation.response;
+        return httpURLResponse.allHeaderFields;
+    }
+    
+    return nil;
 }
 
-- (NSString *)responseString {
-    return self.requestOperation.responseString;
-}
-
-- (NSInteger)responseStatusCode {
-    return self.requestOperation.response.statusCode;
-}
-
-- (NSDictionary *)responseHeaders {
-    return self.requestOperation.response.allHeaderFields;
-}
-
-- (NSError *)requestOperationError {
+- (NSError *)requestOperationError
+{
     return self.requestOperation.error;
 }
 
