@@ -94,6 +94,15 @@
     } else if (request.requestSerializerType == YTKRequestSerializerTypeJSON) {
         requestSerializer = [AFJSONRequestSerializer serializer];
     }
+    
+    // 添加自定义的序列化， @oulijian 2016-5-31
+    if (request.requestSerializerClass && [request.requestSerializerClass isSubclassOfClass:[AFHTTPRequestSerializer class]]) {
+        _manager.requestSerializer = [request.requestSerializerClass serializer];
+    }
+    
+    if (request.responseSerializerClass && [request.responseSerializerClass isSubclassOfClass:[AFHTTPResponseSerializer class]]) {
+        _manager.responseSerializer = [request.responseSerializerClass serializer];
+    }
 
     requestSerializer.timeoutInterval = [request requestTimeoutInterval];
 
@@ -139,7 +148,7 @@
                 // add parameters to URL;
                 NSString *filteredUrl = [YTKNetworkPrivate urlStringWithOriginUrlString:url appendParameters:param];
                 NSURLRequest *requestUrl = [NSURLRequest requestWithURL:[NSURL URLWithString:filteredUrl]];
-#warning request.resumableDownloadPath
+#warning 未完成， request.resumableDownloadPath
                 __block NSURLSessionDownloadTask *downloadTask = nil;
                 downloadTask = [_manager downloadTaskWithRequest:requestUrl
                                                         progress:request.resumableDownloadProgressBlock
@@ -207,8 +216,7 @@
     }
 
     
-    if ([[[UIDevice currentDevice] systemVersion] doubleValue] >= 8.0 &&
-        [request.requestOperation respondsToSelector:@selector(priority)])
+    if ([request.requestOperation respondsToSelector:@selector(priority)])
     {
         // Set request operation priority
         switch (request.requestPriority)
@@ -264,7 +272,7 @@
     YTKBaseRequest *request = _requestsRecord[key];
     YTKLog(@"Finished Request: %@", NSStringFromClass([request class]));
     if (request) {
-        // 设置网络返回的内容responseObject和错误信息error
+        // 设置网络返回的内容responseObject @oulijian 2016-5-31
         request.responseJSONObject = responseObject;
         
         BOOL succeed = [self checkResult:request];
