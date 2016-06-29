@@ -25,26 +25,7 @@
 #import "YTKNetworkAgent.h"
 #import "YTKNetworkPrivate.h"
 
-static NSString *kAFNetworkingLockName = @"YCFAFNetworkingLockName";
-
-@interface YTKBaseRequest()
-
-@property (readwrite, nonatomic, strong) NSRecursiveLock *lock;
-
-@end
-
 @implementation YTKBaseRequest
-
-- (instancetype)init
-{
-    if (self = [super init])
-    {
-        _lock = [[NSRecursiveLock alloc] init];
-        _lock.name = kAFNetworkingLockName;
-    }
-    
-    return self;
-}
 
 /// for subclasses to overwrite
 - (void)requestCompleteFilter {
@@ -83,14 +64,6 @@ static NSString *kAFNetworkingLockName = @"YCFAFNetworkingLockName";
 
 - (YTKRequestSerializerType)requestSerializerType {
     return YTKRequestSerializerTypeHTTP;
-}
-
-- (Class)requestSerializerClass {
-   return nil;
-}
-
-- (Class)responseSerializerClass {
-    return nil;
 }
 
 - (NSArray *)requestAuthorizationHeaderFieldArray {
@@ -216,9 +189,5 @@ static NSString *kAFNetworkingLockName = @"YCFAFNetworkingLockName";
     }
     [self.requestAccessories addObject:accessory];
 }
-
-
-
-
 
 @end

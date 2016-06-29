@@ -94,15 +94,6 @@
     } else if (request.requestSerializerType == YTKRequestSerializerTypeJSON) {
         requestSerializer = [AFJSONRequestSerializer serializer];
     }
-    
-    // 添加自定义的序列化， @oulijian 2016-5-31
-    if (request.requestSerializerClass && [request.requestSerializerClass isSubclassOfClass:[AFHTTPRequestSerializer class]]) {
-        _manager.requestSerializer = [request.requestSerializerClass serializer];
-    }
-    
-    if (request.responseSerializerClass && [request.responseSerializerClass isSubclassOfClass:[AFHTTPResponseSerializer class]]) {
-        _manager.responseSerializer = [request.responseSerializerClass serializer];
-    }
 
     requestSerializer.timeoutInterval = [request requestTimeoutInterval];
 
