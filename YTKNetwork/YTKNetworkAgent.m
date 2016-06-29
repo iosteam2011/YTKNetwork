@@ -50,6 +50,7 @@
         _requestsRecord = [NSMutableDictionary dictionary];
         _manager.operationQueue.maxConcurrentOperationCount = 4;
         _manager.securityPolicy = _config.securityPolicy;
+        _manager.responseSerializer = _config.responseSerializer;
     }
     return self;
 }

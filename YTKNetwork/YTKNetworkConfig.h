@@ -41,6 +41,8 @@
 @property (strong, nonatomic, readonly) NSArray *urlFilters;
 @property (strong, nonatomic, readonly) NSArray *cacheDirPathFilters;
 @property (strong, nonatomic) AFSecurityPolicy *securityPolicy;
+// 添加返回报文序列化配置，默认是AFJSONResponseSerializer， @oulijian 2016-6-29
+@property (strong, nonatomic) id <AFURLResponseSerialization> responseSerializer;
 
 - (void)addUrlFilter:(id<YTKUrlFilterProtocol>)filter;
 - (void)addCacheDirPathFilter:(id <YTKCacheDirPathFilterProtocol>)filter;

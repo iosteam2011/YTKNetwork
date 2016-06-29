@@ -43,6 +43,7 @@
         _urlFilters = [NSMutableArray array];
         _cacheDirPathFilters = [NSMutableArray array];
         _securityPolicy = [AFSecurityPolicy defaultPolicy];
+        _responseSerializer = [AFJSONResponseSerializer serializer];
     }
     return self;
 }
